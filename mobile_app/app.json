@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Safety Monitor",
+    "slug": "construction-safety-monitor",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.codex.constructionsafetymonitor"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "현장 사진과 영상을 분석하기 위해 사진 접근 권한이 필요합니다.",
+          "cameraPermission": "현장 이미지를 촬영하기 위해 카메라 권한이 필요합니다."
+        }
+      ]
+    ]
+  }
+}
