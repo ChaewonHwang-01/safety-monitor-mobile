@@ -28,7 +28,7 @@
 
 | 피드백 반영 예시 | 동영상 피드백 | 동영상 학습 데이터 |
 |---|---|---|
-| ![Feedback ok](docs/assets/readme/photo_feedback_ok.png) | ![Video feedback](docs/assets/readme/video_feedback.png) | ![Video2 training](docs/assets/readme/video2_training.png) |
+| ![Feedback ok](docs/assets/readme/photo_feedback_ok.png) | ![Video feedback](docs/assets/readme/video_feedback_new.png) | ![Video2 training](docs/assets/readme/video2_training.png) |
 
 ## Key Features
 
@@ -185,34 +185,34 @@ python scripts/train_headwear_classifier.py
 
 Manual feedback crops saved through the app can be reused as additional classifier data.
 
-## Feedback Loop
+## 피드백 루프
 
-The feedback screen is designed for model improvement, not just manual correction.
+피드백 화면은 단순히 사람이 결과를 수정하는 기능이 아니라, 추후 모델 개선을 위한 학습 데이터를 모으는 구조로 설계했습니다.
 
-1. The model predicts a wrong label.
-2. The user selects the correct label: `helmet`, `cap_hat`, or `bare_head`.
-3. The crop is saved under `data/headwear_cls/manual/`.
-4. The classifier dataset is rebuilt.
-5. The headwear classifier is retrained and copied to `models/headwear_cls.pt`.
+1. 모델이 잘못된 라벨을 예측합니다.
+2. 사용자가 올바른 라벨을 선택합니다: `helmet`, `cap_hat`, `bare_head`.
+3. 해당 탐지 영역 crop이 `data/headwear_cls/manual/` 아래에 저장됩니다.
+4. 저장된 피드백 데이터를 포함해 보조 분류기 데이터셋을 다시 구성합니다.
+5. headwear classifier를 재학습한 뒤 `models/headwear_cls.pt`로 교체합니다.
 
-This creates a small active-learning loop for improving edge cases found during app testing.
+이 과정을 통해 앱 테스트 중 발견되는 오탐/미탐 사례를 다시 학습 데이터로 반영하는 작은 active learning 흐름을 만들 수 있습니다.
 
-## Limitations
+## 한계점
 
-- The system is a prototype and should not be used as a final safety-critical product without field validation.
-- Performance depends heavily on dataset quality, camera angle, lighting, distance, and occlusion.
-- General caps, hooded clothing, partial helmets, and low-resolution video frames can still cause false positives or false negatives.
-- The mobile app currently sends images/videos to a local FastAPI server instead of running the model fully on-device.
-- Model weights and datasets are excluded from GitHub and must be prepared separately.
+- 본 프로젝트는 프로토타입이므로 실제 안전 관리 시스템으로 사용하려면 현장 데이터 기반 검증이 추가로 필요합니다.
+- 성능은 데이터셋 품질, 촬영 각도, 조명, 거리, 가려짐 정도에 큰 영향을 받습니다.
+- 일반 캡/모자, 후드, 부분적으로 보이는 안전모, 저해상도 영상 프레임에서는 여전히 오탐이나 미탐이 발생할 수 있습니다.
+- 모바일 앱은 현재 모델을 휴대폰 내부에서 직접 실행하지 않고, 로컬 FastAPI 서버로 이미지를 전송해 분석합니다.
+- 모델 가중치와 데이터셋은 용량 문제로 GitHub 저장소에 포함하지 않았기 때문에 별도로 준비해야 합니다.
 
-## Future Work
+## 향후 개선 방향
 
-- Improve the headwear classifier with more balanced `helmet`, `cap_hat`, and `bare_head` samples.
-- Add on-device inference using TensorFlow Lite, Core ML, or ONNX Runtime Mobile.
-- Add event-level confidence smoothing for videos.
-- Add exportable safety reports for selected date ranges.
-- Add role-based dashboard views for site managers and safety officers.
-- Expand from helmet detection to multi-PPE detection such as vest, gloves, harness, and unsafe posture.
+- `helmet`, `cap_hat`, `bare_head` 샘플을 더 균형 있게 수집해 headwear classifier를 개선합니다.
+- TensorFlow Lite, Core ML, ONNX Runtime Mobile 등을 활용해 온디바이스 추론을 추가합니다.
+- 동영상 분석에서 이벤트 단위 confidence smoothing을 적용해 순간적인 오탐을 줄입니다.
+- 선택한 기간의 안전 리포트를 PDF/CSV로 내보내는 기능을 추가합니다.
+- 현장 관리자와 안전 관리자를 위한 역할별 대시보드 화면을 설계합니다.
+- 안전모뿐 아니라 안전조끼, 장갑, 안전벨트, 위험 자세 등으로 PPE/행동 분석 범위를 확장합니다.
 
 ## Tech Stack
 
