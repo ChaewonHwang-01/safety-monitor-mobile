@@ -11,6 +11,8 @@ yolov8*.pt
 *.avi
 *.rar
 *.zip
+!docs/assets/readme/*.mp4
+!docs/assets/readme/*.png
 
 # Python / app caches
 .pytest_cache/
